@@ -1,0 +1,1 @@
+export { headersMap, englishHeader, persianHeader } from 'utils/shared/headers'

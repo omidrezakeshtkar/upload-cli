@@ -1,26 +1,11 @@
-import fs from 'fs'
-import path from 'path';
-import { infoLog, errorLog } from "utils/logger";
 import yargs, { CommandModule } from "yargs";
-import { convertCsvFile } from "commands/convertCsvFile";
-import { readCsvFile } from 'commands/readCsvFile';
+import { uploadCsvFile } from 'commands/uploadCsvFile';
 
-const commands = [ readCsvFile ]
-
-// const checkExportFolderExistAndNotCreated=(foldername: string)=>{
-//     if(!fs.existsSync(foldername)){
-//         fs.mkdir(foldername, (err) => {
-//             if (err) {
-//                 errorLog(err)
-//             }
-//             infoLog('Directory created successfully!')
-//         });
-//     }
-// }
+const commands = [ uploadCsvFile ]
 
 export default (processArguments: string[])=>{
     const cli = yargs(processArguments)
-    .scriptName('uploadcli')
+    .scriptName('keycloak')
     .recommendCommands()
     .strict()
 
@@ -31,8 +16,6 @@ export default (processArguments: string[])=>{
     if (processArguments.length === 0 ){
         cli.showHelp('log')
     }
-
-    // checkExportFolderExistAndNotCreated(path.join(process.cwd(), '/files'))
 
     return cli
 }

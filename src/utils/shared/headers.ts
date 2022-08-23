@@ -18,6 +18,26 @@ export const headersMap: Record<string, string> = {
     'شماره تلفن سرپرست': 'parentMobileNumber'
 }
 
+export type persianHeader = {
+    'نام': string,
+    'نام خانوادگی': string,
+    'نام پدر': string,
+    'جنسیت': string,
+    'کد ملی': string,
+    'تاریخ تولد': string,
+    'نام استان': string,
+    'اداره (سامانه)': string,
+    'منطقه': string,
+    'مقطع تحصیلی': string,
+    'پایه تحصیلی': string,
+    'نام مدرسه': string,
+    'نوع مدرسه': string,
+    'کد مدرسه': string,
+    'جنسیت مدرسه': string,
+    'شماره موبایل': string,
+    'شماره تلفن سرپرست': string
+}
+
 export type englishHeader = {
     'firstName': string,
     'lastName': string,
