@@ -57,3 +57,33 @@ export type englishHeader = {
     'mobileNumber': string,
     'parentMobileNumber': string
 }
+
+export type keycloakUserFormat={
+    firstName: string,
+    lastName: string,
+    username: string,
+    credentials: [
+        { type: string,
+          value: string, 
+          temporary: boolean
+        }
+    ],
+    attributes: {
+        fatherName: string,
+        gender: string,
+        nationalCode: string,
+        birthday: string,
+        province: string,
+        organization: string,
+        region: string,
+        degree: string,
+        grade: string,
+        schoolName: string,
+        schoolType: string,
+        schoolCode: string,
+        schoolGender: string,
+        mobileNumber: string,
+        parentMobileNumber: string
+    },
+    enabled: string | undefined
+}
