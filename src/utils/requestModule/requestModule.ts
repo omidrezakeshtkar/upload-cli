@@ -1,5 +1,5 @@
 import axios from "axios";
-import { infoLog, warningLog } from "../logger";
+import { errorLog, infoLog, warningLog } from "../logger";
 import { convertJsonDataToKeycloakFormat } from "./convertJsonData";
 import { getAccessToken } from "./getAccessToken";
 import { getUsersList } from "./getUsersList";
@@ -22,9 +22,10 @@ export const importUserData = async (jsonarray: any[]) => {
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     const batchUsers = lodash.chunk(requestarray, 1000)
 
-    progressBar.start(batchUsers.length, 0);
+    progressBar.start(batchUsers.length, 0)
+    progressBar.setTotal(batchUsers.length)
     batchUsers.forEach(async (batch,index) => {
-        progressBar.update(index);
+        progressBar.update(index + 1);
         try {
             await axios({
                 method: "post",
@@ -36,8 +37,8 @@ export const importUserData = async (jsonarray: any[]) => {
             console.log(error);
         }
     })
-    progressBar.update(batchUsers.length);
-    progressBar.stop()
-    if(duplicateusernamelist.length > 0) warningLog('duplicate users: ', duplicateusernamelist.join(','))
-    infoLog('upload users finished!')
+    
+    if(duplicateusernamelist.length > 0) progressBar.stop(), warningLog('duplicate users: ', duplicateusernamelist.join(','))
+    if(batchUsers.length>0) progressBar.stop(), infoLog('upload users finished!')
+    else progressBar.stop(), errorLog('all data duplicate.')
 }
