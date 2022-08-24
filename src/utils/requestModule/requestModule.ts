@@ -20,7 +20,7 @@ export const importUserData = async (jsonarray: any[]) => {
     const duplicateusernamelist: string[] = lodash.intersection(usernamelist, csvfileusernamelist)
     lodash.remove(requestarray, list => duplicateusernamelist.includes(list.username))
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    const batchUsers = lodash.chunk(requestarray, 3)
+    const batchUsers = lodash.chunk(requestarray, 1000)
 
     progressBar.start(batchUsers.length, 0);
     batchUsers.forEach(async (batch,index) => {
