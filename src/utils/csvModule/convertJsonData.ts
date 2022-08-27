@@ -1,6 +1,6 @@
 import { englishHeader, keycloakUserFormat } from "utils/shared";
 
-export const convertJsonDataToKeycloakFormat=(jsonarray: any[])=>{
+export const convertJsonDataToKeycloakFormat=(jsonarray: any[]): any[]=>{
     return jsonarray.map((element: englishHeader): keycloakUserFormat=>{
         return {
             firstName: element.firstName,

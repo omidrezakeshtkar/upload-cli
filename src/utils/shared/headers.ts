@@ -87,3 +87,8 @@ export type keycloakUserFormat={
     },
     enabled: string | undefined
 }
+
+export type usernameListType={
+    usernamelist: string[],
+    csvfileusernamelist: string[]
+}

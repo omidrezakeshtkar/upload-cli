@@ -1,44 +1,40 @@
-import axios from "axios";
-import { errorLog, infoLog, warningLog } from "../logger";
-import { convertJsonDataToKeycloakFormat } from "./convertJsonData";
-import { getAccessToken } from "./getAccessToken";
-import { getUsersList } from "./getUsersList";
 import * as lodash from 'lodash'
 import * as cliProgress from 'cli-progress'
+import { usernameListType } from "utils/shared"
+import { getUserNameList } from "utils/requestModule"
+import { postPartialImport } from "./postPartialImport"
+import { infoLog, warningLog, errorLog } from "utils/logger"
+import { duplicateCheck, removeDuplicateData } from "utils/requestModule/shared"
+import { convertJsonDataToKeycloakFormat } from "utils/csvModule"
 
-export const importUserData = async (jsonarray: any[]) => {
-    let importUserArray: any
-    const accessToken = await getAccessToken()
-    const existingKeycloakUsers = await getUsersList(accessToken)
-    const usernamelist: string[] = existingKeycloakUsers.map((user: any) => {
-        return user.username
-    })
-    const requestarray = convertJsonDataToKeycloakFormat(jsonarray)
-    const csvfileusernamelist: string[] = requestarray.map((user:any)=>{
-        return user.username
-   })
-    const duplicateusernamelist: string[] = lodash.intersection(usernamelist, csvfileusernamelist)
-    lodash.remove(requestarray, list => duplicateusernamelist.includes(list.username))
+const setProgressBar = (batchUsers: any) => {
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    const batchUsers = lodash.chunk(requestarray, 1000)
-
     progressBar.start(batchUsers.length, 0)
     progressBar.setTotal(batchUsers.length)
-    batchUsers.forEach(async (batch,index) => {
-        progressBar.update(index + 1);
-        try {
-            await axios({
-                method: "post",
-                url: `${process.env.keycloak_address}/auth/admin/realms/${process.env.keycloak_realm}/partialImport`,
-                headers: { "content-type": "application/json", Authorization: accessToken },
-                data: {users:batch},
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    })
-    
-    if(duplicateusernamelist.length > 0) progressBar.stop(), warningLog('duplicate users: ', duplicateusernamelist.join(','))
-    if(batchUsers.length>0) progressBar.stop(), infoLog('upload users finished!')
-    else progressBar.stop(), errorLog('all data duplicate.')
+    return progressBar
+}
+
+export const importUserData = async (jsonarray: any[]) => {
+    const requestdataarray: string[] = convertJsonDataToKeycloakFormat(jsonarray)
+    const usernamelists: Promise<usernameListType> = getUserNameList(requestdataarray)
+    const duplicateusernamelist: string[] = await duplicateCheck(usernamelists)
+    const requestarray:string[] = removeDuplicateData(requestdataarray, duplicateusernamelist)
+    const batchUsers: string[][] = lodash.chunk(requestarray, 1000)
+    const progressBar: cliProgress.SingleBar = setProgressBar(batchUsers)
+
+    postPartialImport(batchUsers, progressBar)
+
+    if (duplicateusernamelist.length > 0) {
+        progressBar.stop()
+        warningLog('duplicate users: ',
+            duplicateusernamelist.join(','))
+    }
+    if (batchUsers.length > 0) {
+        progressBar.stop()
+        infoLog('upload users finished!')
+    }
+    else {
+        progressBar.stop()
+        errorLog('all data duplicate.')
+    }
 }
