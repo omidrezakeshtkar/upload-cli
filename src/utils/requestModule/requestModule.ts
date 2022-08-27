@@ -1,30 +1,38 @@
-import axios from "axios";
-import { warningLog } from "../logger";
-import { convertJsonDataToKeycloakFormat } from "./convertJsonData";
-import { getAccessToken } from "./getAccessToken";
-import { getUsersList } from "./getUsersList";
+import * as lodash from 'lodash'
+import * as cliProgress from 'cli-progress'
+import { getUserNameList } from "utils/requestModule"
+import { postPartialImport } from "./postPartialImport"
+import { infoLog, warningLog, errorLog } from "utils/logger"
+import { convertJsonDataToKeycloakFormat } from "utils/csvModule"
+
+const setProgressBar = (batchUsers: any) => {
+    const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+    progressBar.start(batchUsers.length, 0)
+    progressBar.setTotal(batchUsers.length)
+    return progressBar
+}
 
 export const importUserData = async (jsonarray: any[]) => {
-    const accessToken = await getAccessToken()
-    const existingKeycloakUsers = await getUsersList(accessToken)
-    const usernamelist: string[] = existingKeycloakUsers.map((user: any) => {
-        return user.username
-    })
-    const requestarray = convertJsonDataToKeycloakFormat(jsonarray)
-    requestarray.forEach(async (element) => {
-        if(!usernamelist.includes(element.username)){
-            try {
-                await axios({
-                    method: "post",
-                    url: `${process.env.keycloak_address}/auth/admin/realms/${process.env.keycloak_realm}/users`,
-                    headers: { "content-type": "application/json", Authorization: accessToken },
-                    data: element,
-                })
-            } catch (error) {
-                console.log(error);
-            }
-        }else{
-            warningLog('duplicate user: ', element.username)
-        }
-    })   
+    const requestDataArray = convertJsonDataToKeycloakFormat(jsonarray)
+    const usernameLists = await getUserNameList(requestDataArray)
+    const duplicateUsernameList = lodash.intersection(usernameLists.usernameList, usernameLists.csvFileUsernameList)
+    const requestArray = lodash.remove(requestDataArray, list => duplicateUsernameList.includes((list as any).username))
+    const batchUsers = lodash.chunk(requestArray, Number(process.env.chunk_size))
+    const progressBar = setProgressBar(batchUsers)
+
+    postPartialImport(batchUsers, progressBar)
+
+    if (duplicateUsernameList.length > 0) {
+        progressBar.stop()
+        warningLog('duplicate users: ',
+        duplicateUsernameList.join(','))
+    }
+    if (batchUsers.length > 0) {
+        progressBar.stop()
+        infoLog('upload users finished!')
+    }
+    else {
+        progressBar.stop()
+        errorLog('all data duplicate.')
+    }
 }

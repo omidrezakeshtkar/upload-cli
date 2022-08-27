@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAccessToken = async() =>{
+export const getAccessToken = async () => {
     const responseToken = await axios({
         method: "post",
         url: `${process.env.keycloak_address}/auth/realms/${process.env.keycloak_realm}/protocol/openid-connect/token`,

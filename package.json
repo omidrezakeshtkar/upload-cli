@@ -11,8 +11,7 @@
         "prebuild": "rimraf build && yarn build:bundle --minify --outfile=build/index.js",
         "build:start": "node .",
         "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node16",
-        "build:exec": "pkg --output build/exec .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build:exec": "pkg --output build/exec ."
     },
     "pkg": {
         "assets": [
@@ -33,11 +32,15 @@
         "@persian-tools/persian-tools": "^3.4.0",
         "axios": "^0.27.2",
         "chalk": "^4.0.1",
+        "cli-progress": "^3.11.2",
         "dotenv": "^16.0.1",
+        "lodash": "^4.17.21",
         "papaparse": "^5.3.2",
         "yargs": "^17.5.1"
     },
     "devDependencies": {
+        "@types/cli-progress": "^3.11.0",
+        "@types/lodash": "^4.14.184",
         "@types/node": "^18.7.6",
         "@types/papaparse": "^5.3.3",
         "@types/yargs": "^17.0.11",
