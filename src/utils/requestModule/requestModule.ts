@@ -1,10 +1,8 @@
 import * as lodash from 'lodash'
 import * as cliProgress from 'cli-progress'
-import { usernameListType } from "utils/shared"
 import { getUserNameList } from "utils/requestModule"
 import { postPartialImport } from "./postPartialImport"
 import { infoLog, warningLog, errorLog } from "utils/logger"
-import { duplicateCheck, removeDuplicateData } from "utils/requestModule/shared"
 import { convertJsonDataToKeycloakFormat } from "utils/csvModule"
 
 const setProgressBar = (batchUsers: any) => {
@@ -15,19 +13,19 @@ const setProgressBar = (batchUsers: any) => {
 }
 
 export const importUserData = async (jsonarray: any[]) => {
-    const requestdataarray: string[] = convertJsonDataToKeycloakFormat(jsonarray)
-    const usernamelists: Promise<usernameListType> = getUserNameList(requestdataarray)
-    const duplicateusernamelist: string[] = await duplicateCheck(usernamelists)
-    const requestarray:string[] = removeDuplicateData(requestdataarray, duplicateusernamelist)
-    const batchUsers: string[][] = lodash.chunk(requestarray, 1000)
-    const progressBar: cliProgress.SingleBar = setProgressBar(batchUsers)
+    const requestDataArray = convertJsonDataToKeycloakFormat(jsonarray)
+    const usernameLists = await getUserNameList(requestDataArray)
+    const duplicateUsernameList = lodash.intersection(usernameLists.usernameList, usernameLists.csvFileUsernameList)
+    const requestArray = lodash.remove(requestDataArray, list => duplicateUsernameList.includes((list as any).username))
+    const batchUsers = lodash.chunk(requestArray, Number(process.env.chunk_size))
+    const progressBar = setProgressBar(batchUsers)
 
     postPartialImport(batchUsers, progressBar)
 
-    if (duplicateusernamelist.length > 0) {
+    if (duplicateUsernameList.length > 0) {
         progressBar.stop()
         warningLog('duplicate users: ',
-            duplicateusernamelist.join(','))
+        duplicateUsernameList.join(','))
     }
     if (batchUsers.length > 0) {
         progressBar.stop()

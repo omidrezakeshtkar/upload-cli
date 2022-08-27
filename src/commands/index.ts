@@ -1,19 +1,19 @@
 import yargs, { CommandModule } from "yargs";
 import { uploadCsvFile } from 'commands/uploadCsvFile';
 
-const commands = [ uploadCsvFile ]
+const commands = [uploadCsvFile]
 
-export default (processArguments: string[])=>{
+export default (processArguments: string[]) => {
     const cli = yargs(processArguments)
-    .scriptName('keycloak')
-    .recommendCommands()
-    .strict()
+        .scriptName('keycloak')
+        .recommendCommands()
+        .strict()
 
-    for (const commandModule of Object.values<CommandModule<any, any>>(commands)){
+    for (const commandModule of Object.values<CommandModule<any, any>>(commands)) {
         cli.command(commandModule)
     }
 
-    if (processArguments.length === 0 ){
+    if (processArguments.length === 0) {
         cli.showHelp('log')
     }
 

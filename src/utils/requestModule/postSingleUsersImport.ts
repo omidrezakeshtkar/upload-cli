@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const postSingleUsersImport = async (accessToken:string, jsondata: object) => {
+export const postSingleUsersImport = async (accessToken: string, jsondata: object) => {
     try {
         await axios({
             method: "post",

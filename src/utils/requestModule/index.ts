@@ -1,5 +1,5 @@
 export { importUserData } from "utils/requestModule/requestModule"
 export { getAccessToken } from "utils/requestModule/getAccessToken"
 export { postPartialImport } from "utils/requestModule/postPartialImport"
-export { postSingleUsersImport } from "utils/requestModule/postUsersImport"
+export { postSingleUsersImport } from "utils/requestModule/postSingleUsersImport"
 export { getUsersListFromKeycloak, getUserNameList } from "utils/requestModule/getUsersList"

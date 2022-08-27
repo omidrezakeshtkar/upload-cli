@@ -11,8 +11,7 @@
         "prebuild": "rimraf build && yarn build:bundle --minify --outfile=build/index.js",
         "build:start": "node .",
         "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node16",
-        "build:exec": "pkg --output build/exec .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build:exec": "pkg --output build/exec ."
     },
     "pkg": {
         "assets": [

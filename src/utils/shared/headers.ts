@@ -58,14 +58,15 @@ export type englishHeader = {
     'parentMobileNumber': string
 }
 
-export type keycloakUserFormat={
+export type keycloakUserFormat = {
     firstName: string,
     lastName: string,
     username: string,
     credentials: [
-        { type: string,
-          value: string, 
-          temporary: boolean
+        {
+            type: string,
+            value: string,
+            temporary: boolean
         }
     ],
     attributes: {
@@ -85,10 +86,10 @@ export type keycloakUserFormat={
         mobileNumber: string,
         parentMobileNumber: string
     },
-    enabled: string | undefined
+    enabled?: string
 }
 
-export type usernameListType={
-    usernamelist: string[],
-    csvfileusernamelist: string[]
+export type usernameListType = {
+    usernameList: string[],
+    csvFileUsernameList: string[]
 }
