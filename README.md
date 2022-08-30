@@ -2,9 +2,7 @@
 
 ## setup
 
-To get started, you need to configure your keycloak.
-
-Use the following tutorial for this:
+To get you started use this tutorial to configure your keycloak:
 
 https://www.appsdeveloperblog.com/keycloak-rest-api-create-a-new-user/
 
