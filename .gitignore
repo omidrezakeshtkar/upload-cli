@@ -152,3 +152,7 @@ build/
 # ignore csv and xlsx files.
 **/*.csv
 src/**/*.xlsx
+
+# ignore other formats
+
+**/*.Identifier
