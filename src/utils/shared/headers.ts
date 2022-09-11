@@ -1,22 +1,22 @@
 export const headersMap: Record<string, string> = {
-	"NAME":"NAME",
-	"FAMILY":"FAMILY",
-	"JENSIAT":"JENSIAT",
-	"STATE_TITLE":"STATE_TITLE",
-	"CITY_TITLE":"CITY_TITLE",
-	"CODE_MELI":"CODE_MELI",
-	"TARIKH_TAVALOD":"TARIKH_TAVALOD",
-	"MOBILE_MASUL":"MOBILE_MASUL",
-	"NAME_MASUL":"NAME_MASUL",
-	"FAMILY_MASUL":"FAMILY_MASUL",
-	"ROSTAEI_SHAHRI_TITLE":"ROSTAEI_SHAHRI_TITLE",
-	"LOCATION_FR_NAME":"LOCATION_FR_NAME",
-	"MAGHTA_TITLE":"MAGHTA_TITLE",
-	"PAYETAHSILI":"PAYETAHSILI",
-	"RESHTETAHSILI":"RESHTETAHSILI",
-	"NOERESHTE":"NOERESHTE",
-	"VAZIATTAHSILI":"VAZIATTAHSILI",
-	"NAMEMADRESEDANESHGAH":"NAMEMADRESEDANESHGAH",
+	NAME: "firstName",
+	FAMILY: "lastName",
+	JENSIAT: "gender",
+	STATE_TITLE: "state",
+	CITY_TITLE: "city",
+	CODE_MELI: "nationalCode",
+	TARIKH_TAVALOD: "dateOfBirth",
+	MOBILE_MASUL: "contactMobile",
+	NAME_MASUL: "contactFirstName",
+	FAMILY_MASUL: "contactLastName",
+	ROSTAEI_SHAHRI_TITLE: "residence",
+	LOCATION_FR_NAME: "contactOffice",
+	MAGHTA_TITLE: "educationStage",
+	PAYETAHSILI: "educationLevel",
+	RESHTETAHSILI: "educationMajor",
+	NOERESHTE: "educationType",
+	VAZIATTAHSILI: "educationStatus",
+	NAMEMADRESEDANESHGAH: "educationInstitute",
 };
 
 export type persianHeader = {
@@ -40,24 +40,24 @@ export type persianHeader = {
 };
 
 export type englishHeader = {
-	NAME: string;
-	FAMILY: string;
-	JENSIAT: string;
-	STATE_TITLE: string;
-	CITY_TITLE: string;
-	CODE_MELI: string;
-	TARIKH_TAVALOD: string;
-	MOBILE_MASUL: string;
-	NAME_MASUL: string;
-	FAMILY_MASUL: string;
-	ROSTAEI_SHAHRI_TITLE: string;
-	LOCATION_FR_NAME: string;
-	MAGHTA_TITLE: string;
-	PAYETAHSILI: string;
-	RESHTETAHSILI: string;
-	NOERESHTE: string;
-	VAZIATTAHSILI: string;
-	NAMEMADRESEDANESHGAH: string;
+	firstName: string;
+	lastName: string;
+	gender: string;
+	state: string;
+	city: string;
+	nationalCode: string;
+	dateOfBirth: string;
+	contactMobile: string;
+	contactFirstName: string;
+	contactLastName: string;
+	residence: string;
+	contactOffice: string;
+	educationStage: string;
+	educationLevel: string;
+	educationMajor: string;
+	educationType: string;
+	educationStatus: string;
+	educationInstitute: string;
 };
 
 export type keycloakUserFormat = {
@@ -72,24 +72,24 @@ export type keycloakUserFormat = {
 		}
 	];
 	attributes: {
-		NAME: string;
-		FAMILY: string;
-		JENSIAT: string;
-		STATE_TITLE: string;
-		CITY_TITLE: string;
-		CODE_MELI: string;
-		TARIKH_TAVALOD: string;
-		MOBILE_MASUL: string;
-		NAME_MASUL: string;
-		FAMILY_MASUL: string;
-		ROSTAEI_SHAHRI_TITLE: string;
-		LOCATION_FR_NAME: string;
-		MAGHTA_TITLE: string;
-		PAYETAHSILI: string;
-		RESHTETAHSILI: string;
-		NOERESHTE: string;
-		VAZIATTAHSILI: string;
-		NAMEMADRESEDANESHGAH: string;
+		firstName: string;
+		lastName: string;
+		gender: string;
+		state: string;
+		city: string;
+		nationalCode: string;
+		dateOfBirth: string;
+		contactMobile: string;
+		contactFirstName: string;
+		contactLastName: string;
+		residence: string;
+		contactOffice: string;
+		educationStage: string;
+		educationLevel: string;
+		educationMajor: string;
+		educationType: string;
+		educationStatus: string;
+		educationInstitute: string;
 	};
 	enabled?: string;
 };
